@@ -1,33 +1,35 @@
+#include "Player.h"
 #include "PlayerStates.h"
 #include "graphic.h"
+#include "window.h"
 #include "input.h"
 #include "Game.h"
 #include "Actor.h"
+#include "InputComponent.h"
 #include "State.h"
 #include "StateComponent.h"
 #include "AnimSpriteComponent.h"
-#include "Player.h"
 //-------------------------------------------------------------------
 void PlayerWait::OnEnter()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
-	p->GetAnim()->SetAnimId(0);
+	p->GetAnim()->SetAnimId(p->EWait);
 }
 void PlayerWait::Update()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
 
-	if (p->Punch())
+	if (p->GetIn()->Punch())
 	{
 		mOwnerCompo->ChangeState("Punch");
 		return;
 	}
-	if (p->StartWalk())
+	if (p->GetIn()->StartWalk())
 	{
 		mOwnerCompo->ChangeState("Walk");
 		return;
 	}
-	if (p->Jump())
+	if (p->GetIn()->Jump())
 	{
 		mOwnerCompo->ChangeState("Jump");
 		return;
@@ -37,23 +39,23 @@ void PlayerWait::Update()
 void PlayerWalk::OnEnter()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
-	p->GetAnim()->SetAnimId(1);
+	p->GetAnim()->SetAnimId(p->EWalk);
 	p->GetAnim()->SetInterval(0.0166f * 6);
 }
 void PlayerWalk::Update()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
-	if (p->Punch())
+	if (p->GetIn()->Punch())
 	{
 		mOwnerCompo->ChangeState("Punch");
 		return;
 	}
-	if (p->StopWalk())
+	if (p->GetIn()->StopWalk())
 	{
 		mOwnerCompo->ChangeState("Wait");
 		return;
 	}
-	if (p->Jump())
+	if (p->GetIn()->Jump())
 	{
 		mOwnerCompo->ChangeState("Jump");
 		return;
@@ -63,21 +65,21 @@ void PlayerWalk::Update()
 void PlayerJump::OnEnter()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
-	p->GetAnim()->SetAnimId(2);
-	p->GetAnim()->SetInterval(0.0166f * 28);
-	mVel = -20;
-	mAcc = 1.0f;
+	p->GetAnim()->SetAnimId(p->EJump);
+	mVel = -20*60;
+	mAcc = 1.2f*60*60;
 }
 void PlayerJump::Update()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
 	VECTOR2 pos = p->GetPosition();
-	pos.y += mVel;
-	mVel += mAcc;
+	pos.y += mVel * delta;
+	mVel += mAcc * delta;
 	//’…’n
-	if (pos.y > height - 128 * mOwnerCompo->GetActor()->GetScale() / 2)
+	float landingY = height - 128 * mOwnerCompo->GetActor()->GetScale() / 2;
+	if (pos.y > landingY)
 	{
-		pos.y = height - 128 * mOwnerCompo->GetActor()->GetScale() / 2;
+		pos.y = landingY;
 		mOwnerCompo->ChangeState("Wait");
 	}
 	p->SetPosition(pos);
@@ -86,7 +88,7 @@ void PlayerJump::Update()
 void PlayerPunch::OnEnter()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
-	p->GetAnim()->SetAnimId(3);
+	p->GetAnim()->SetAnimId(p->EPunch);
 	p->GetAnim()->SetInterval(0.0166f * 3);
 }
 void PlayerPunch::Update()

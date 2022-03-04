@@ -7,7 +7,7 @@ class AnimSpriteComponent :
 public:
     AnimSpriteComponent(class Actor* owner, int drawOrder = 100);
     void AddImage(int img);
-    void SetAnimIndexRange(int start, int end, int mode);
+    void SetRange(int start, int end, int mode);
     void Update() override;
     void Draw() override;
     void SetInterval(float interval) { mInterval = interval; }
@@ -15,22 +15,23 @@ public:
     void SetAnimId(int id) { mAnimId = id; }
     bool GetAnimEnd() { return mAnimEnd; }
 private:
+    //画像切り替え
     std::vector<int>mImgs;
     int mCurIdx;
     float mTimer;
     float mInterval;
-
+    //アニメーション切り替え
     int mAnimId;
     int mPreAnimId;
-    struct ANIM {
+    struct Range 
+    {
         int startIdx;
         int endIdx;
         int mode;
-        ANIM(int s, int e, int m)
-            :startIdx(s), endIdx(e), mode(m) {
-        }
+        Range(int s, int e, int m)
+            :startIdx(s), endIdx(e), mode(m) {}
     };
-    std::vector<ANIM> mAnim;
+    std::vector<Range> mRange;
 
     bool mAnimEnd;
 };

@@ -15,30 +15,32 @@ void AnimSpriteComponent::AddImage(int img)
 	mImgs.emplace_back(img);
 }
 
-void AnimSpriteComponent::SetAnimIndexRange(int start, int end, int mode)
+void AnimSpriteComponent::SetRange(int start, int end, int mode)
 {
-    mAnim.emplace_back(start, end, mode);
+    mRange.emplace_back(start, end, mode);
 }
 
 void AnimSpriteComponent::Update()
 {
+    //アニメーション切り替え時の初期化
     if (mPreAnimId != mAnimId) {
-        mCurIdx = mAnim[mAnimId].startIdx;
+        mCurIdx = mRange[mAnimId].startIdx;
         mTimer = 0;
         mAnimEnd = false;
     }
     mPreAnimId = mAnimId;
+    //画像切り替え・mCurIdxの更新
     mTimer += delta;
     if (mTimer > mInterval) {
         ++mCurIdx;
-        if (mCurIdx > mAnim[mAnimId].endIdx) {
-            if (mAnim[mAnimId].mode == 1)
+        if (mCurIdx > mRange[mAnimId].endIdx) {
+            if (mRange[mAnimId].mode == 1)
             {
-                mCurIdx = mAnim[mAnimId].startIdx;
+                mCurIdx = mRange[mAnimId].startIdx;
             }
             else
             {
-                mCurIdx = mAnim[mAnimId].endIdx;
+                mCurIdx = mRange[mAnimId].endIdx;
                 mAnimEnd = true;
             }
         }

@@ -5,17 +5,12 @@ class Player :
 {
 public:
     Player(class Game* gmae);
-    void ActorInput() override;
-    class AnimSpriteComponent* GetAnim() { return mAsc; }
-    int Jump() { return mJump; }
-    int Punch() { return mPunch; }
-    int StartWalk() { return mStartWalk; }
-    int StopWalk() { return mStopWalk; }
+    class InputComponent* GetIn() { return mIn; }
+    class AnimSpriteComponent* GetAnim() { return mAnim; }
+    enum AnimId{EWait,EWalk,EJump,EPunch,ENumId};
 private:
-    class AnimSpriteComponent* mAsc;
-    int mJump;
-    int mPunch;
-    int mStartWalk;
-    int mStopWalk;
+    class InputComponent* mIn;
+    class AnimSpriteComponent* mAnim;
+    class StateComponent* mState;
 };
 

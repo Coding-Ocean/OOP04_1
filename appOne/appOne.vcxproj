@@ -158,6 +158,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gmain.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStates.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="AnimSpriteComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStates.h" />
     <ClInclude Include="SpriteComponent.h" />

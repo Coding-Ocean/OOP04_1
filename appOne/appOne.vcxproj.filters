@@ -68,6 +68,9 @@
     <ClCompile Include="gmain.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Actors\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,33 +6,34 @@ class AnimSpriteComponent :
 {
 public:
     AnimSpriteComponent(class Actor* owner, int drawOrder = 100);
-    void AddImage(int img);
-    void SetRange(int start, int end, int mode);
     void Update() override;
     void Draw() override;
+    //画像切り替え系
+    void AddImage(int img);
     void SetInterval(float interval) { mInterval = interval; }
-
+    //アニメーション切り替え系
+    void SetAnim(int startIdx, int endIdx, int loopMode);
     void SetAnimId(int id) { mAnimId = id; }
     bool GetAnimEnd() { return mAnimEnd; }
 private:
-    //画像切り替え
+    //画像切り替え系
     std::vector<int>mImgs;
     int mCurIdx;
     float mTimer;
     float mInterval;
-    //アニメーション切り替え
+    //アニメーション切り替え系
     int mAnimId;
     int mPreAnimId;
-    struct Range 
+    struct Anim
     {
         int startIdx;
         int endIdx;
-        int mode;
-        Range(int s, int e, int m)
-            :startIdx(s), endIdx(e), mode(m) {}
+        int loopMode;
+        Anim(int s, int e, int m)
+            :startIdx(s), endIdx(e), loopMode(m) {}
     };
-    std::vector<Range> mRange;
-
+    std::vector<Anim> mAnims;
+    //アニメーション終了フラッグ
     bool mAnimEnd;
 };
 

@@ -66,8 +66,8 @@ void PlayerJump::OnEnter()
 {
 	Player* p = dynamic_cast<Player*>(mOwnerCompo->GetActor());
 	p->GetAnim()->SetAnimId(p->EJump);
-	mVel = -20*60;
-	mAcc = 1.2f*60*60;
+	mVel = -20.0f * 60;
+	mAcc = 1.2f * 60 * 60;
 }
 void PlayerJump::Update()
 {

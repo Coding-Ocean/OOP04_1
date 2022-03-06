@@ -15,16 +15,16 @@ void AnimSpriteComponent::AddImage(int img)
 	mImgs.emplace_back(img);
 }
 
-void AnimSpriteComponent::SetRange(int start, int end, int mode)
+void AnimSpriteComponent::SetAnim(int start, int end, int loopMode)
 {
-    mRange.emplace_back(start, end, mode);
+    mAnims.emplace_back(start, end, loopMode);
 }
 
 void AnimSpriteComponent::Update()
 {
     //アニメーション切り替え時の初期化
     if (mPreAnimId != mAnimId) {
-        mCurIdx = mRange[mAnimId].startIdx;
+        mCurIdx = mAnims[mAnimId].startIdx;
         mTimer = 0;
         mAnimEnd = false;
     }
@@ -33,14 +33,16 @@ void AnimSpriteComponent::Update()
     mTimer += delta;
     if (mTimer > mInterval) {
         ++mCurIdx;
-        if (mCurIdx > mRange[mAnimId].endIdx) {
-            if (mRange[mAnimId].mode == 1)
+        if (mCurIdx > mAnims[mAnimId].endIdx) {
+            if (mAnims[mAnimId].loopMode == 1)
             {
-                mCurIdx = mRange[mAnimId].startIdx;
+                //ループするためにインデックスを最初に戻す
+                mCurIdx = mAnims[mAnimId].startIdx;
             }
             else
             {
-                mCurIdx = mRange[mAnimId].endIdx;
+                //ループさせないので最後のインデックスのままにする
+                mCurIdx = mAnims[mAnimId].endIdx;
                 mAnimEnd = true;
             }
         }

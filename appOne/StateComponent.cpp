@@ -26,23 +26,22 @@ void StateComponent::Update()
 
 void StateComponent::ChangeState(const std::string& name)
 {
-	// First exit the current state
+	// 現在のステートから出る
 	if (mCurrentState)
 	{
 		mCurrentState->OnExit();
 	}
 
-	// Try to find the new state from the map
+	// mapから新しいステートを探す
 	auto iter = mStateMap.find(name);
 	if (iter != mStateMap.end())
 	{
 		mCurrentState = iter->second;
-		// We're entering the new state
+		// 新しい状態に入る
 		mCurrentState->OnEnter();
 	}
 	else
 	{
-		//SDL_Log("Could not find State %s in state map", name.c_str());
 		mCurrentState = nullptr;
 	}
 }
